@@ -1,0 +1,202 @@
+/* Global Styling */
+.root {
+    -fx-font-family: "Segoe UI", sans-serif;
+    -fx-font-size: 13px;
+    -fx-background-color: #f8f9fb;
+}
+
+/* Toolbar */
+.tool-bar {
+    -fx-background-color: #ffffff;
+    -fx-padding: 10 15;
+    -fx-spacing: 10;
+    -fx-border-color: #d1d1d1;
+    -fx-border-width: 0 0 1 0;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 3, 0, 0, 1);
+}
+
+/* Toolbar Buttons */
+.tool-bar .button {
+    -fx-background-color: #f4f6f8;
+    -fx-border-color: #cfd8dc;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 6 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 1, 0, 0, 1);
+}
+
+.tool-bar .button:hover {
+    -fx-background-color: #e0f0ff;
+}
+
+.tool-bar .button:focused {
+    -fx-border-color: #2196f3;
+    -fx-background-color: #d0eaff;
+}
+
+/* TreeView Sidebar */
+.tree-view {
+    -fx-background-color: #273746;
+    -fx-control-inner-background: #273746;
+    -fx-border-color: #1f2a35;
+    -fx-border-width: 0 1 0 0;
+}
+
+.tree-cell {
+    -fx-background-color: transparent;
+    -fx-text-fill: #ecf0f1;
+    -fx-padding: 10 16;
+    -fx-font-size: 14px;
+    -fx-font-weight: 500;
+}
+
+.tree-cell:hover {
+    -fx-background-color: #34495e;
+}
+
+.tree-cell:filled:selected {
+    -fx-background-color: #0e89e2;
+    -fx-text-fill: white;
+}
+
+/* TreeView expand/collapse arrow */
+.tree-view .arrow {
+    -fx-shape: "M0 0 L4 4 L0 8 Z";
+    -fx-background-color: #ecf0f1;
+}
+
+
+/* TableView */
+.table-view {
+    -fx-background-color: white;
+    -fx-border-color: #dcdcdc;
+    -fx-border-radius: 4;
+    -fx-padding: 10;
+    -fx-table-cell-border-color: #e6e6e6;
+    -fx-font-size: 14px;
+    -fx-font-family: "Segoe UI", sans-serif;
+}
+
+.table-view .column-header-background {
+    -fx-background-color: #f1f3f4;
+    -fx-border-color: #d1d1d1;
+}
+
+.table-view .column-header,
+.table-view .filler {
+    -fx-size: 32;
+    -fx-border-width: 0 0 1 0;
+    -fx-font-weight: bold;
+    -fx-alignment: CENTER-LEFT;
+    -fx-padding: 4 8 4 8;
+}
+
+.table-view .table-row-cell {
+    -fx-padding: 8 6 8 6;
+}
+
+.table-view .table-row-cell:filled:selected,
+.table-view .table-row-cell:focused:selected {
+    -fx-background-color: #d0eaff;
+}
+
+.table-view .table-row-cell:filled {
+    -fx-background-color: white;
+}
+
+
+.table-view .placeholder .label {
+    -fx-text-fill: #888;
+    -fx-font-style: italic;
+    -fx-font-size: 13px;
+}
+
+/* Optional: alternating row colors */
+.table-row-cell:odd {
+    -fx-background-color: #f9f9f9;
+}
+.table-row-cell:even {
+    -fx-background-color: white;
+}
+
+
+/* Form Container */
+.vbox {
+    -fx-background-color: #ffffff;
+    -fx-padding: 20;
+    -fx-spacing: 12;
+    -fx-border-color: #e0e0e0;
+    -fx-border-width: 1;
+    -fx-border-radius: 5;
+}
+
+/* Labels */
+.label {
+    -fx-text-fill: #2c3e50;
+    -fx-font-size: 14px;
+}
+
+/* Inputs */
+.text-field, .combo-box {
+    -fx-background-color: #ffffff;
+    -fx-border-color: #cfd8dc;
+    -fx-border-radius: 4;
+    -fx-padding: 6 10;
+    -fx-background-radius: 4;
+}
+
+/* Hover/focus states for fields */
+.text-field:focused, .combo-box:focused {
+    -fx-border-color: #2196f3;
+    -fx-effect: dropshadow(gaussian, rgba(33,150,243,0.2), 3, 0, 0, 1);
+}
+
+/* Buttons below TableView */
+.table-button {
+    -fx-background-color: #f4f6f8;
+    -fx-border-color: #cfd8dc;
+    -fx-border-radius: 6;
+    -fx-background-radius: 6;
+    -fx-padding: 6 16;
+    -fx-font-weight: bold;
+    -fx-text-fill: #333;
+    -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 1, 0, 0, 1);
+    -fx-min-height: 32px;  /* match toolbar button height */
+    -fx-pref-height: 32px;
+    -fx-max-height: 32px;
+}
+
+.table-button:hover{
+    -fx-background-color: #e0f0ff;
+}
+
+.table-button:focused {
+    -fx-border-color: #2196f3;
+    -fx-background-color: #d0eaff;
+}
+
+/* Content pane with plain white background */
+.content-pane {
+    -fx-background-color: white;
+}
+
+/* Welcome label styling with nice text and subtle shadow */
+.welcome-label {
+    -fx-font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    -fx-font-size: 28px;
+    -fx-font-weight: 600;
+    -fx-text-fill: #16222a; /* dark blue text for contrast */
+    -fx-effect: dropshadow(gaussian, rgba(22, 34, 42, 0.3), 6, 0.5, 0, 0);
+    -fx-wrap-text: true;
+    -fx-text-alignment: center;
+    -fx-padding: 40px;
+    -fx-max-width: 400px;
+}
+
+
+
+
+
+
