@@ -1,6 +1,5 @@
 package org.example.bookmngmntsys;
 
-import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.ObservableList;
 import javafx.scene.Node;
 import javafx.scene.Scene;
@@ -14,6 +13,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.scene.input.MouseEvent;
 import java.sql.SQLException;
+import java.util.Arrays;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 
@@ -84,52 +85,8 @@ public class LogsView {
         TableColumn<Log, String> timestampCol = new TableColumn<>("Action Timestamp");
         timestampCol.setCellValueFactory(cellData -> cellData.getValue().actionTimestampProperty());
 
-        tableView.getColumns().addAll(tableNameCol, actionCol, changedDataCol, timestampCol);
+        tableView.getColumns().addAll(Arrays.asList(tableNameCol, actionCol, changedDataCol, timestampCol));
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
-
-//        String[] columnNames = {"Table Name", "Action", "Changed Data", "Action Timestamp"};
-//
-//        for (int i = 0; i < columnNames.length; i++) {
-//            final int columnIndex = i;
-//            TableColumn<ObservableList<String>, String> column = new TableColumn<>(columnNames[i]);
-//
-//            if (columnNames[i].equals("Changed Data")) {
-//                // Cell factory to handle double-click and open detail window
-//                column.setCellFactory(col -> {
-//                    TableCell<ObservableList<String>, String> cell = new TableCell<>() {
-//                        @Override
-//                        protected void updateItem(String item, boolean empty) {
-//                            super.updateItem(item, empty);
-//                            setText(empty ? null : "Double Click");
-//                            setGraphic(null);
-//                        }
-//                    };
-//
-//                    cell.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-//                        if (!cell.isEmpty() && event.getClickCount() == 2) {
-//                            ObservableList<String> row = cell.getTableView().getItems().get(cell.getIndex());
-//                            String jsonData = row.get(2); // "Changed Data" is at index 2
-//
-//                            openJsonDetailWindow(jsonData); // You implement this method
-//                        }
-//                    });
-//
-//                    return cell;
-//                });
-//
-//            } else {
-//                // For all other columns, show actual data from the row
-//                column.setCellValueFactory(param -> {
-//                    ObservableList<String> row = param.getValue();
-//                    if (row != null && columnIndex < row.size()) {
-//                        return new SimpleStringProperty(row.get(columnIndex));
-//                    }
-//                    return new SimpleStringProperty("");
-//                });
-//            }
-//            tableView.getColumns().add(column);
-//        }
-//        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     public static Node getView(DatabaseManager dbManager) {
