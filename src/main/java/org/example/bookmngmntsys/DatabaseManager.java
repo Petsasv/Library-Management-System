@@ -11,8 +11,9 @@ public class DatabaseManager {
 
     private static final String URL = "jdbc:postgresql://dblabs.iee.ihu.gr:5432/it185328";
     // Get from environment variables
-    private static final String USER = System.getProperty("DB_USER", "default_user");
-    private static final String PASSWD = System.getProperty("DB_PASSWORD", "default_password");
+    private static final String USER = System.getProperty("DB_USER", System.getenv("DB_USER"));
+    private static final String PASSWD = System.getProperty("DB_PASSWORD", System.getenv("DB_PASSWORD"));
+
 
     private final Connection connection;
 
@@ -306,8 +307,8 @@ public class DatabaseManager {
     }
 
     // Fetch logs data from DB
-    public ObservableList<ObservableList<String>> fetchLogs(int limit) throws SQLException {
-        ObservableList<ObservableList<String>> data = FXCollections.observableArrayList();
+    public ObservableList<Log> fetchLogs(int limit) throws SQLException {
+        ObservableList<Log> logs = FXCollections.observableArrayList();
 
         String query = "SELECT * FROM library.get_recent_logs(?)";
 
@@ -315,19 +316,20 @@ public class DatabaseManager {
             pstmt.setInt(1, limit);
 
             ResultSet rs = pstmt.executeQuery();
+            int idCounter = 1;
             while (rs.next()) {
-                ObservableList<String> row = FXCollections.observableArrayList();
-
-                row.add(rs.getString(1));
-                row.add(rs.getString(2));
-                row.add(rs.getString(3));
-                row.add(rs.getString(4));
-
-                data.add(row);
+                Log log = new Log(
+                        idCounter++,
+                        rs.getString("table_name"),
+                        rs.getString("action"),
+                        rs.getString("changed_data"),
+                        rs.getString("action_timestamp")
+                );
+                logs.add(log);
             }
         } catch (SQLException e) {
             e.printStackTrace(System.err);
         }
-        return data;
+        return logs;
     }
 }

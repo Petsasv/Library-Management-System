@@ -47,62 +47,99 @@ public class LogsView {
     }
 
     // Set up column names in the TableView
-    public static void setUpTableColumns(TableView<ObservableList<String>> tableView) {
+    public static void setUpTableColumns(TableView<Log> tableView) {
         tableView.getColumns().clear();
 
-        String[] columnNames = {"Table Name", "Action", "Changed Data", "Action Timestamp"};
+        // Table Name
+        TableColumn<Log, String> tableNameCol = new TableColumn<>("Table Name");
+        tableNameCol.setCellValueFactory(cellData -> cellData.getValue().tableNameProperty());
 
-        for (int i = 0; i < columnNames.length; i++) {
-            final int columnIndex = i;
-            TableColumn<ObservableList<String>, String> column = new TableColumn<>(columnNames[i]);
+        // Action
+        TableColumn<Log, String> actionCol = new TableColumn<>("Action");
+        actionCol.setCellValueFactory(cellData -> cellData.getValue().actionProperty());
 
-            if (columnNames[i].equals("Changed Data")) {
-                // Cell factory to handle double-click and open detail window
-                column.setCellFactory(col -> {
-                    TableCell<ObservableList<String>, String> cell = new TableCell<>() {
-                        @Override
-                        protected void updateItem(String item, boolean empty) {
-                            super.updateItem(item, empty);
-                            setText(empty ? null : "Double Click");
-                            setGraphic(null);
-                        }
-                    };
+        // Changed Data (double-click column)
+        TableColumn<Log, String> changedDataCol = new TableColumn<>("Changed Data");
+        changedDataCol.setCellValueFactory(cellData -> cellData.getValue().changedDataProperty());
+        changedDataCol.setCellFactory(col -> {
+            TableCell<Log, String> cell = new TableCell<>() {
+                @Override
+                protected void updateItem(String item, boolean empty) {
+                    super.updateItem(item, empty);
+                    setText(empty ? null : "Double Click");
+                }
+            };
 
-                    cell.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
-                        if (!cell.isEmpty() && event.getClickCount() == 2) {
-                            ObservableList<String> row = cell.getTableView().getItems().get(cell.getIndex());
-                            String jsonData = row.get(2); // "Changed Data" is at index 2
+            cell.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+                if (!cell.isEmpty() && event.getClickCount() == 2) {
+                    Log log = cell.getTableRow().getItem();
+                    openJsonDetailWindow(log.getChangedData());
+                }
+            });
 
-                            openJsonDetailWindow(jsonData); // You implement this method
-                        }
-                    });
+            return cell;
+        });
 
-                    return cell;
-                });
+        // Action Timestamp
+        TableColumn<Log, String> timestampCol = new TableColumn<>("Action Timestamp");
+        timestampCol.setCellValueFactory(cellData -> cellData.getValue().actionTimestampProperty());
 
-            } else {
-                // For all other columns, show actual data from the row
-                column.setCellValueFactory(param -> {
-                    ObservableList<String> row = param.getValue();
-                    if (row != null && columnIndex < row.size()) {
-                        return new SimpleStringProperty(row.get(columnIndex));
-                    }
-                    return new SimpleStringProperty("");
-                });
-            }
-            tableView.getColumns().add(column);
-        }
+        tableView.getColumns().addAll(tableNameCol, actionCol, changedDataCol, timestampCol);
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+
+//        String[] columnNames = {"Table Name", "Action", "Changed Data", "Action Timestamp"};
+//
+//        for (int i = 0; i < columnNames.length; i++) {
+//            final int columnIndex = i;
+//            TableColumn<ObservableList<String>, String> column = new TableColumn<>(columnNames[i]);
+//
+//            if (columnNames[i].equals("Changed Data")) {
+//                // Cell factory to handle double-click and open detail window
+//                column.setCellFactory(col -> {
+//                    TableCell<ObservableList<String>, String> cell = new TableCell<>() {
+//                        @Override
+//                        protected void updateItem(String item, boolean empty) {
+//                            super.updateItem(item, empty);
+//                            setText(empty ? null : "Double Click");
+//                            setGraphic(null);
+//                        }
+//                    };
+//
+//                    cell.addEventFilter(MouseEvent.MOUSE_CLICKED, event -> {
+//                        if (!cell.isEmpty() && event.getClickCount() == 2) {
+//                            ObservableList<String> row = cell.getTableView().getItems().get(cell.getIndex());
+//                            String jsonData = row.get(2); // "Changed Data" is at index 2
+//
+//                            openJsonDetailWindow(jsonData); // You implement this method
+//                        }
+//                    });
+//
+//                    return cell;
+//                });
+//
+//            } else {
+//                // For all other columns, show actual data from the row
+//                column.setCellValueFactory(param -> {
+//                    ObservableList<String> row = param.getValue();
+//                    if (row != null && columnIndex < row.size()) {
+//                        return new SimpleStringProperty(row.get(columnIndex));
+//                    }
+//                    return new SimpleStringProperty("");
+//                });
+//            }
+//            tableView.getColumns().add(column);
+//        }
+//        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
     }
 
     public static Node getView(DatabaseManager dbManager) {
 
         BorderPane root = new BorderPane();
-        TableView<ObservableList<String>> tableView = new TableView<>();
+        TableView<Log> tableView = new TableView<>();
         setUpTableColumns(tableView);
 
         try {
-            ObservableList<ObservableList<String>> logs = dbManager.fetchLogs(100);
+            ObservableList<Log> logs = dbManager.fetchLogs(100);
             tableView.setItems(logs);
         } catch (SQLException e) {
             e.printStackTrace(System.err);
