@@ -241,11 +241,16 @@ public class MemberView {
                 return;
             }
 
-            String firstName = selectedMember.get(1);
-            String lastName = selectedMember.get(2);
+            String firstName = selectedMember.get(0);
+            String lastName = selectedMember.get(1);
+            int memberId = 0;
             try {
-                int memberId = dbManager.getMemberIdByName(firstName, lastName);
+                memberId = dbManager.getMemberIdByName(firstName, lastName);
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
 
+            try {
                 // Confirm deletion
                 Alert confirm = new Alert(Alert.AlertType.CONFIRMATION);
                 confirm.setTitle("Confirm Deletion");
